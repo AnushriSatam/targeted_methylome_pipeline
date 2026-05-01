@@ -9,17 +9,14 @@ fi
 
 R1=$1
 R2=$2
-FILENAME=$(basename "$R1")
-BASENAME=${FILENAME%%_S*}
+BASENAME=$(basename "$R1")
 READS=101790680 #required for the downsampling step. This is the standardised read count used for downsampling 
 
 #genomic location
 genome=hg19_methylom_index/hg19_exome.fasta
-dict=hg19_methylom_index/hg19_exome.dict
-bed=hg19_methylom_index/filtered.bed
 interval=hg19_methylom_index/Twist_Human_Methylome_Panel_hg19.intervals
 #software location
-
+#the location must be mentioned here.
 seqtk=""
 trim_galore="" 
 bwa_meth=""
@@ -71,7 +68,7 @@ $picard MarkDuplicates \
 samtools index -@ 16 ${BASENAME}_sorted.markdup.bam
 
 
-#Collect HsMetrics-how well did the reads hit the intended target regions (twist) 
+#Collect HsMetrics-how well did the reads hit the intended target regions (twist panel) 
 $picard CollectHsMetrics \
 -I ${BASENAME}_sorted.markdup.bam \
 -O ${BASENAME}_metrics.txt \
